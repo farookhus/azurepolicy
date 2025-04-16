@@ -1,0 +1,87 @@
+{
+  "properties": {
+    "displayName": "Append Ipaddress to key vault Modify - latest",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "createdBy": "a3f909ef-51c8-47f0-80d8-27e7de6d247c",
+      "createdOn": "2025-04-15T16:58:17.6854198Z",
+      "updatedBy": "a3f909ef-51c8-47f0-80d8-27e7de6d247c",
+      "updatedOn": "2025-04-16T01:11:34.6607708Z"
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "ipAddress": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "IP Addresses",
+          "description": "The list of IP addresses to append to the Key Vault network ACLs."
+        },
+        "defaultValue": [
+          "203.0.113.5/32",
+          "203.0.114.5/32",
+          "203.0.112.5/32"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules",
+            "notin": "[parameters('ipAddress')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "modify",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/f25e0fa2-a7c8-4377-a976-54943a77a395"
+          ],
+          "operations": [
+            {
+              "operation": "add",
+              "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*]",
+              "value": {
+                "value": "203.0.114.5/32"
+              }
+            },
+            {
+              "operation": "add",
+              "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*]",
+              "value": {
+                "value": "203.0.113.5/32"
+              }
+            },
+            {
+              "operation": "add",
+              "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*]",
+              "value": {
+                "value": "203.0.112.5/32"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  },
+  "id": "/subscriptions/a682efd9-27e6-4af8-9d10-574e2a214eab/providers/Microsoft.Authorization/policyDefinitions/bde6ee2c-2053-46c8-9c69-57a4b5923f54",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "bde6ee2c-2053-46c8-9c69-57a4b5923f54",
+  "systemData": {
+    "createdBy": "farookhuswork@gmail.com",
+    "createdByType": "User",
+    "createdAt": "2025-04-15T16:58:17.5974336Z",
+    "lastModifiedBy": "farookhuswork@gmail.com",
+    "lastModifiedByType": "User",
+    "lastModifiedAt": "2025-04-16T01:11:34.6281927Z"
+  }
+}
