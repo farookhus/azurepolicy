@@ -1,0 +1,59 @@
+{
+  "properties": {
+    "displayName": "Append Ipaddress to key vault AUDIT - latest",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "createdBy": "a3f909ef-51c8-47f0-80d8-27e7de6d247c",
+      "createdOn": "2025-04-16T03:09:48.6389164Z",
+      "updatedBy": "a3f909ef-51c8-47f0-80d8-27e7de6d247c",
+      "updatedOn": "2025-04-16T04:15:50.0351719Z"
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "allowedIP": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed IP Addresses",
+          "description": "The list of IP addresses that must be allowed in the Key Vault firewall."
+        },
+        "defaultValue": [
+          "203.0.113.5/32",
+          "203.0.114.5/32",
+          "203.0.112.5/32"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*].value",
+            "in": "[parameters('allowedIP')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "audit"
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  },
+  "id": "/subscriptions/a682efd9-27e6-4af8-9d10-574e2a214eab/providers/Microsoft.Authorization/policyDefinitions/c40c0249-311c-495c-80aa-ae4d027db79d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "c40c0249-311c-495c-80aa-ae4d027db79d",
+  "systemData": {
+    "createdBy": "farookhuswork@gmail.com",
+    "createdByType": "User",
+    "createdAt": "2025-04-16T03:09:48.6308012Z",
+    "lastModifiedBy": "farookhuswork@gmail.com",
+    "lastModifiedByType": "User",
+    "lastModifiedAt": "2025-04-16T04:15:50.0093977Z"
+  }
+}
