@@ -1,0 +1,77 @@
+{
+  "properties": {
+    "displayName": "Append Ipaddress to key vault AUDIT - latest copy",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "createdBy": "a3f909ef-51c8-47f0-80d8-27e7de6d247c",
+      "createdOn": "2025-04-16T15:03:43.5225312Z",
+      "updatedBy": "a3f909ef-51c8-47f0-80d8-27e7de6d247c",
+      "updatedOn": "2025-04-16T15:12:22.9044082Z"
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "allowedIP": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed IP Addresses",
+          "description": "The list of IP addresses that must be allowed in the Key Vault firewall."
+        },
+        "defaultValue": [
+          "203.0.113.5/32",
+          "203.0.114.5/32",
+          "203.0.112.5/32"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "anyOf": [
+              {
+                "not": {
+                  "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*].value",
+                  "contains": "[parameters('allowedIP')[0]]"
+                }
+              },
+              {
+                "not": {
+                  "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*].value",
+                  "contains": "[parameters('allowedIP')[1]]"
+                }
+              },
+              {
+                "not": {
+                  "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*].value",
+                  "contains": "[parameters('allowedIP')[2]]"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "audit"
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  },
+  "id": "/subscriptions/a682efd9-27e6-4af8-9d10-574e2a214eab/providers/Microsoft.Authorization/policyDefinitions/371816e1-107e-4822-9670-ce7e2857a76a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "371816e1-107e-4822-9670-ce7e2857a76a",
+  "systemData": {
+    "createdBy": "farookhuswork@gmail.com",
+    "createdByType": "User",
+    "createdAt": "2025-04-16T15:03:43.4624055Z",
+    "lastModifiedBy": "farookhuswork@gmail.com",
+    "lastModifiedByType": "User",
+    "lastModifiedAt": "2025-04-16T15:12:22.845132Z"
+  }
+}
