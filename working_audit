@@ -1,0 +1,42 @@
+{
+  "mode": "All",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.KeyVault/vaults"
+        },
+        {
+          "count": {
+            "value": "[parameters('allowedIP')]",
+            "where": {
+              "not": {
+                "value": "[current()]",
+                "in": "[field('Microsoft.KeyVault/vaults/networkAcls.ipRules[*].value')]"
+              }
+            }
+          },
+          "greater": 0
+        }
+      ]
+    },
+    "then": {
+      "effect": "audit"
+    }
+  },
+  "parameters": {
+    "allowedIP": {
+      "type": "Array",
+      "metadata": {
+        "displayName": "Allowed IP Addresses",
+        "description": "The list of IP addresses that must be allowed in the Key Vault firewall."
+      },
+      "defaultValue": [
+        "203.0.113.5/32",
+        "203.0.114.5/32",
+        "203.0.112.5/32"
+      ]
+    }
+  }
+}
